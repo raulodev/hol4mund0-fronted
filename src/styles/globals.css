@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-white selection:bg-sky-500 selection:text-white  text-gray-900;
+  }
+
+  label {
+    @apply text-gray-600 font-sans text-xl !important;
+  }
+
+  pre {
+    @apply bg-[#282C34] mockup-code rounded w-full px-4 !important;
+  }
+}
+
+.text-colored {
+  background-image: url("/hero3.jpg");
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.markdown-editor {
+  @apply w-full sm:w-[30rem] md:w-[38rem] lg:w-[45rem] text-base md:text-lg text-gray-900 break-words
+}
+
+.markdown-editor th, td {
+  @apply border px-2 !important;
+}
+
+.card-body td {
+  
+  @apply  border-none !important;
+}
+
+.markdown-editor table {
+  @apply w-max;
+}
