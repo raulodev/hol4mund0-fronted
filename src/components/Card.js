@@ -12,6 +12,7 @@ import {
   AiOutlineCalendar,
   AiFillDelete,
   AiFillEdit,
+  AiFillInfoCircle
 } from "react-icons/ai";
 
 export function Card({
@@ -143,11 +144,6 @@ export function Card({
                   <div className="card-body">
                     <div className="overflow-x-auto">
                       <table className="table">
-                        <thead>
-                          <tr>
-                            <th>Estadísticas</th>
-                          </tr>
-                        </thead>
                         <tbody>
                           <tr>
                             <th>Likes</th>
@@ -183,7 +179,7 @@ export function Card({
         articleId={id}
         articleTitle={title}
         handlerdeletePost={handlerdeletePost}
-
+        accessToken={accessToken}
       />
     </div>
   );
@@ -219,10 +215,10 @@ function ModalReport({ showModal, onShowModal, articleId, accessToken }) {
             placeholder="Contexto"
           />
           {error ? (
-            <div className="text-error flex items-center gap-2">
-              <AiFillCheckCircle />
-              Ha ocurrido un error al enviar el reporte
-            </div>
+            <p className="text-error flex items-center gap-1">
+              <AiFillInfoCircle />
+              ha ocurrido un error
+            </p>
           ) : success &&
 
           <div className="text-success flex items-center gap-2">
@@ -263,11 +259,13 @@ function ModalDelete({ showModal, onShowModal, articleId, articleTitle, handlerd
             Seguro que desea eliminar a <span className="font-semibold">{articleTitle}</span> ?
           </p>
           <p>Esta acción no se puede deshacer.</p>
+
           {error && (
-            <button className="btn btn-ghost btn-sm text-error">
-              <AiFillCheckCircle />
+            <p className="text-error flex items-center gap-1">
+              <AiFillInfoCircle />
               {error.message}
-            </button>
+            </p>
+
           )}
           <div className="modal-action">
             <button onClick={() => onShowModal(!showModal)} className="btn btn-sm">

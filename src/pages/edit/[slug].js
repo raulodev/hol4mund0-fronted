@@ -11,7 +11,6 @@ export async function getServerSideProps(context) {
     accessToken = token.accessToken
   }
 
-
   let data;
   try {
     const { slug } = context.params;
@@ -19,7 +18,8 @@ export async function getServerSideProps(context) {
     data = await res.data;
 
   } catch (error) {
-    if (res.status == 404) {
+
+    if (error?.response?.status == 404) {
       return {
         notFound: true,
       };

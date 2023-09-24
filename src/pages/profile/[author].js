@@ -53,6 +53,7 @@ const UserDetail = ({ userData, userArticles, accessToken }) => {
       <PageHead
         title={userData?.username && "@" + userData.username}
         description={userData?.description && userData.description}
+        image={userData?.preview_profile_image}
       />
       <main className="min-h-screen">
         <NavBar accessToken={accessToken} />
@@ -71,16 +72,20 @@ const UserDetail = ({ userData, userArticles, accessToken }) => {
                 />
               </div>
               <div className="flex flex-col pt-4">
+                {/* nombre */}
                 <div className="text-2xl font-bold text-center text-zinc-900">
                   {userData?.first_name && <span> {userData.first_name}</span>}
                   {userData?.last_name && <span> {userData.last_name}</span>}
                 </div>
+                {/* username */}
                 <div className="py-2 text-lg font-light text-center text-zinc-900">
                   {userData?.username && <span> @{userData.username}</span>}
                 </div>
+                {/* social sections */}
                 <Social userData={userData} />
+                {/* descripción */}
                 {userData?.description && (
-                  <div className="text-lg w-full lg:w-[40rem] font-light border break-words whitespace-pre-wrap p-4">
+                  <div className="text-lg w-64 sm:w-96 lg:w-[40rem] font-light border break-words whitespace-pre-wrap p-4">
                     <span className="font-bold">Bio</span>
                     <br />
                     {userData.description}

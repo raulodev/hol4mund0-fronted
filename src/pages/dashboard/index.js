@@ -35,7 +35,7 @@ function Edit({ accessToken }) {
 
   return (
     <>
-      <PageHead title="Panel" />
+      <PageHead title="Panel - Hol4 Mund0" />
       <main className="flex flex-col items-center min-h-screen">
         <NavBar accessToken={accessToken} />
 

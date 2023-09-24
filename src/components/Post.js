@@ -30,11 +30,17 @@ export function Post({ data, accessToken }) {
       setContent(data.content);
       setTags(JSON.parse(data.tags));
 
-      const res = await fetch(data.preview_cover_image);
-      const blob = await res.blob();
-      const file = new File([blob], "image.png");
-      setImage(file);
-      setPreviewImageUrl(URL.createObjectURL(blob));
+      try {
+        const res = await fetch(data.preview_cover_image);
+        const blob = await res.blob();
+        const file = new File([blob], "image.png");
+        setImage(file);
+        setPreviewImageUrl(URL.createObjectURL(blob));
+
+      } catch (error) {
+        console.log(error)
+      }
+
     }
     if (data) {
       getData();
@@ -55,7 +61,7 @@ export function Post({ data, accessToken }) {
     formData.append("title", title);
     formData.append("content", content);
 
-    if (title.length == 0 || !image) {
+    if (title.length == 0 || !image || JSON.stringify(tags).length > 300) {
       setShowAlert(true);
       return;
     }
@@ -80,11 +86,11 @@ export function Post({ data, accessToken }) {
 
   return (
     <>
-      <PageHead title={data ? "Editar" : "Redactar"} />
+      <PageHead title={data ? "Editar - Hol4 Mundo" : "Redactar - Hol4 Mund0"} />
       <main className="min-h-screen">
         <NavBar accessToken={accessToken} />
 
-        {isError && <PageError message={isError.message} />}
+        {isError && <PageError message={isError.message} code={isError.code} />}
 
         {isLoading && (
           <div className="flex justify-center min-h-screen">
@@ -95,9 +101,15 @@ export function Post({ data, accessToken }) {
         {!isLoading && !isError && (
           <div className="flex flex-col justify-center items-center gap-2 px-2 lg:gap-0 lg:items-start lg:flex-row ">
             <div className="w-full sm:w-[30rem] md:w-[38rem] lg:w-min">
-              <button onClick={() => setPreview(!isPreview)} className="mt-20 mr-2 btn btn-sm btn-neutral w-max">
-                {isPreview ? <VscEdit className="text-xl" /> : <VscPreview className="text-xl" />}
-              </button>
+              <div className="tooltip tooltip-bottom" data-tip={isPreview ? "editar" : "vista previa"}>
+                <button onClick={() => setPreview(!isPreview)} className="mt-20 mr-2 btn btn-sm btn-neutral w-max">
+                  {isPreview ?
+                    <VscEdit className="text-xl" />
+                    :
+                    <VscPreview className="text-xl" />
+                  }
+                </button>
+              </div>
 
             </div>
             <div className="flex flex-col w-full gap-4 bg-white sm:w-[30rem] md:w-[38rem] lg:w-[46rem] lg:mt-20">
@@ -225,14 +237,15 @@ function Alert({ showModal, onShowModal }) {
       <input defaultChecked checked={showModal} type="checkbox" className="modal-toggle" />
       <div className="modal">
         <div className="modal-box">
-          <h3 className="text-lg font-bold">Le faltaron algunos pasos.</h3>
+          <h3 className="text-lg font-bold">Debe de tener en cuenta:</h3>
           <ul className="list-disc list-inside mt-4">
-            <li>Debe de establecer un título a la publicación.</li>
-            <li>Debe agregar una imagen de cover.</li>
+            <li>Establecer un título a la publicación.</li>
+            <li>Agregar una imagen de cover.</li>
+            <li>No exceder el límite de la cantidad de tags.</li>
             <li>Si no tiene contenido se guardará como un borrador.</li>
           </ul>
           <div className="modal-action">
-            <button onClick={() => onShowModal(!showModal)} className="btn btn-sm">
+            <button onClick={() => onShowModal(!showModal)} className="btn btn-sm btn-neutral">
               Cerrar
             </button>
           </div>

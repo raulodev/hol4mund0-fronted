@@ -83,7 +83,7 @@ function Setting({ accessToken }) {
 
   return (
     <>
-      <PageHead title="Ajustes" />
+      <PageHead title="Ajustes - Hol4 Mund0" />
       <main className="flex flex-col items-center min-h-screen">
         <NavBar accessToken={accessToken} />
         {isError && <PageError message={isError.message} />}

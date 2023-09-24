@@ -125,11 +125,11 @@ function Page({
 
   return (
     <>
-      <PageHead title={title} />
+      <PageHead title={title} image={cover} description={content} />
       <main className="min-h-screen">
         <NavBar accessToken={accessToken} />
         <div className="flex justify-center pt-20 lg:pt-32">
-          <div className="w-full px-2 sm:w-[30rem] sm:px-0 md:w-[38rem] lg:w-[45rem] flex flex-col gap-5">
+          <div className="w-full px-4 sm:w-[30rem] sm:px-0 md:w-[38rem] lg:w-[45rem] flex flex-col gap-5">
             {/* cover */}
             <div className="h-40 overflow-hidden lg:h-80">
               <Image

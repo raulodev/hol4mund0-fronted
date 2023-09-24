@@ -20,12 +20,12 @@ export function NavBar({ accessToken }) {
   return (
     <div className="fixed z-50 border-b navbar bg-base-100 bg-base-100/95 backdrop-blur">
       <div className="navbar-start">
-        <a className="text-xl normal-case btn btn-ghost text-colored">Hola Mundo</a>
+        <a className="text-xl normal-case btn btn-ghost text-colored">Hol4 Mund0</a>
       </div>
       <div className="navbar-center">
         <div className="dropdown dropdown-bottom flex justify-center">
           <label tabIndex={0} className="btn btn-ghost btn-circle normal-case">
-            <AiOutlineSearch className="text-2xl" />
+            <AiOutlineSearch className="text-xl sm:text-2xl" />
 
           </label>
           <div tabIndex={0} className="dropdown-content z-[1] mt-5 menu p-6 shadow-lg bg-base-100 border break-words rounded-box w-80 sm:w-[30rem]">
