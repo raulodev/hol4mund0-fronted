@@ -37,7 +37,7 @@ export default function Home({ accessToken }) {
       <main className="flex flex-col items-center min-h-screen">
         <NavBar accessToken={accessToken} />
         <div>
-          <h1 className="text-5xl font-black mt-24 text-colored">Publicaciones</h1>
+          <h1 className="text-4xl font-black mt-24 text-colored">Publicaciones</h1>
         </div>
         {isLoading && <SkeletonSectionData />}
         {isError && <PageError message={isError.message} code={isError.code} />}

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import CreatableSelect from "react-select/creatable";
 import { VscPreview, VscEdit } from "react-icons/vsc";
+import { AiOutlineArrowUp } from "react-icons/ai";
 import { NavBar } from "@/components/NavBar";
 import { PageHead } from "@/components/WebHeader";
 import { Editor } from "@/components/MarkdownEditor";
@@ -86,7 +87,7 @@ export function Post({ data, accessToken }) {
 
   return (
     <>
-      <PageHead title={data ? "Editar - Hol4 Mundo" : "Redactar - Hol4 Mund0"} />
+      <PageHead title={data ? "Editar - Hol4 Mund0" : "Redactar - Hol4 Mund0"} />
       <main className="min-h-screen">
         <NavBar accessToken={accessToken} />
 
@@ -101,7 +102,7 @@ export function Post({ data, accessToken }) {
         {!isLoading && !isError && (
           <div className="flex flex-col justify-center items-center gap-2 px-2 lg:gap-0 lg:items-start lg:flex-row ">
             <div className="w-full sm:w-[30rem] md:w-[38rem] lg:w-min">
-              <div className="tooltip tooltip-bottom" data-tip={isPreview ? "editar" : "vista previa"}>
+              <div className="tooltip tooltip-bottom" data-tip={isPreview ? "editar" : "ver"}>
                 <button onClick={() => setPreview(!isPreview)} className="mt-20 mr-2 btn btn-sm btn-neutral w-max">
                   {isPreview ?
                     <VscEdit className="text-xl" />
@@ -205,7 +206,25 @@ export function Post({ data, accessToken }) {
 
               <Editor show={isPreview} onChangeContent={handleContentChange} initialContent={content} />
             </div>
-            <div className="flex flex-col gap-2 ml-2 lg:mt-20">
+            {/* -> lg */}
+            <div className="lg:hidden fixed bottom-5 right-5 flex flex-col items-end gap-1">
+              <Button
+                isLoading={loading}
+                isSuccess={success}
+                className="btn btn-sm btn-neutral w-max"
+                icon={<AiOutlineArrowUp className="text-lg" />}
+                onClick={handlerSubmit}
+              />
+
+              <div className="p-2 bg-white">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input ref={chekboxRef} defaultChecked type="checkbox" className="checkbox-primary checkbox checkbox-sm" />
+                  <span className="text-sm font-semibold">Como borrador</span>
+                </label>
+              </div>
+            </div>
+            {/* lg */}
+            <div className="hidden lg:flex flex-col gap-2 ml-2 lg:mt-20">
               <Button
                 isLoading={loading}
                 isSuccess={success}

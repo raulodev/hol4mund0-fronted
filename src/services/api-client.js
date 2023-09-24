@@ -23,4 +23,4 @@ export const clientApi = axios.create({
 });
 
 
-export const baseURL = process.env.DJANGO_SERVICE_URL
+export const baseURL = "https://hol4mund0.vercel.app"

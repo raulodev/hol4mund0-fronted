@@ -23,16 +23,16 @@
 }
 
 .markdown-editor {
-  @apply w-full sm:w-[30rem] md:w-[38rem] lg:w-[45rem] text-base md:text-lg text-gray-900 break-words
+  @apply w-full sm:w-[30rem] md:w-[38rem] lg:w-[45rem] text-base md:text-lg text-gray-900 break-words;
 }
 
-.markdown-editor th, td {
+.markdown-editor th,
+td {
   @apply border px-2 !important;
 }
 
 .card-body td {
-  
-  @apply  border-none !important;
+  @apply border-none !important;
 }
 
 .markdown-editor table {

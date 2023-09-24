@@ -1,18 +1,17 @@
-import Image from "next/image";
 import { PageHead } from "@/components/WebHeader";
 import { getProviders, signIn } from "next-auth/react"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../api/auth/[...nextauth]";
-import { AiFillGithub, AiFillGoogleCircle, AiFillTwitterCircle } from "react-icons/ai";
-import logo from "../../../public/android-chrome-512x512.png"
+import { AiFillGithub, AiFillTwitterCircle } from "react-icons/ai";
 
 function Login({ providers }) {
 
   return (
     <>
       <PageHead title="Acceder - Hol4 Mund0" />
-      <main className="flex flex-col items-center justify-center min-h-screen gap-5">
-        <Image src={logo} width={30} height={30} />
+      <main className="flex flex-col items-center justify-center min-h-screen gap-4">
+        <a className="text-xl normal-case btn btn-ghost text-colored">Accede a tu cuenta</a>
+
         <div className="p-4 w-72 space-y-4">
 
           {Object.values(providers).map((provider) => (

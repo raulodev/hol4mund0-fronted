@@ -1,6 +1,6 @@
 import { AiOutlineCheck } from "react-icons/ai";
 
-export function Button({ isLoading, isSuccess, className, text, onClick }) {
+export function Button({ isLoading, isSuccess, className, text = "", onClick, icon = "" }) {
   return (
     <>
       {isLoading && (
@@ -17,7 +17,8 @@ export function Button({ isLoading, isSuccess, className, text, onClick }) {
 
       {!isLoading && !isSuccess && (
         <button type="submit" className={className} onClick={onClick}>
-          <span>{text}</span>
+          {icon && icon}
+          {text && <span>{text}</span>}
         </button>
       )}
     </>

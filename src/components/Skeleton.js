@@ -28,7 +28,6 @@ export const SkeletonCard = () => {
         <div className="w-56 h-4 bg-gray-200 rounded-full animate-pulse"></div>
         <div className="card-actions justify-start items-center">
           <div className="w-10 h-10 overflow-hidden rounded-full bg-gray-200 animate-pulse">
-            <BsImageAlt className="text-3xl text-gray-300" />
           </div>
         </div>
       </div>
