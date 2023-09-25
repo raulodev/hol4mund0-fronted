@@ -65,6 +65,7 @@ export async function getServerSideProps(context) {
   const url_comments = data.comments;
   const url_likes = data.likes;
   const string_tags = data.tags;
+  const is_draft = data.is_draft;
 
   return {
     props: {
@@ -80,6 +81,7 @@ export async function getServerSideProps(context) {
       url_likes,
       string_tags,
       accessToken,
+      is_draft,
     },
   };
 }
@@ -95,7 +97,8 @@ function Page({
   url_comments,
   url_likes,
   string_tags,
-  accessToken
+  accessToken,
+  is_draft
 }) {
   const [showModal, setShowModal] = useState(false)
   const [tags] = useState(() => JSON.parse(string_tags));
@@ -128,100 +131,108 @@ function Page({
       <PageHead title={title} image={cover} description={content} />
       <main className="min-h-screen">
         <NavBar accessToken={accessToken} />
-        <div className="flex justify-center pt-20 lg:pt-32">
-          <div className="w-full px-4 sm:w-[30rem] sm:px-0 md:w-[38rem] lg:w-[45rem] flex flex-col gap-5">
-            {/* cover */}
-            <div className="h-40 overflow-hidden lg:h-80">
-              <Image
-                className="object-cover w-full h-full"
-                src={cover}
-                width={700}
-                height={200}
-                alt="cover"
-              />
-            </div>
-            {/* titulo */}
-            <div className="text-3xl font-black break-words lg:text-4xl">
-              {title}
-            </div>
-            {/* información del autor */}
-            <div className="flex gap-4">
-              <div className="w-16 h-16 overflow-hidden rounded-full">
+        {/* Ocultar contenido si es un borrador */}
+        {is_draft ?
+          <div className="h-screen flex justify-center items-center">
+            <h1 className="text-lg w-full px-4 sm:w-[30rem]  text-center">
+              El autor de esta publicación la ha marcado <span className="underline font-semibold">como borrador</span> por lo tanto su contenido no es visible
+            </h1>
+          </div> :
+          <div className="flex justify-center pt-20 lg:pt-32">
+            <div className="w-full px-4 sm:w-[30rem] sm:px-0 md:w-[38rem] lg:w-[45rem] flex flex-col gap-5">
+              {/* cover */}
+              <div className="h-40 overflow-hidden lg:h-80">
                 <Image
-                  className="object-cover h-full"
-                  src={author_image}
-                  width={400}
-                  height={400}
-                  alt="image profile"
+                  className="object-cover w-full h-full"
+                  src={cover}
+                  width={700}
+                  height={200}
+                  alt="cover"
                 />
               </div>
-              <div className="flex flex-col gap-2">
-                <div className="text-xl font-bold">{author}</div>
-                <div className="text-base font-light">{created_at}</div>
+              {/* titulo */}
+              <div className="text-3xl font-black break-words lg:text-4xl">
+                {title}
               </div>
-            </div>
-            {/* tags */}
-            <div className="flex flex-wrap gap-2">
-              {tags?.map((el) => (
-                <span
-                  key={el.value}
-                  className="p-1 text-gray-600 bg-gray-100 w-max"
+              {/* información del autor */}
+              <div className="flex gap-4">
+                <div className="w-16 h-16 overflow-hidden rounded-full">
+                  <Image
+                    className="object-cover h-full"
+                    src={author_image}
+                    width={400}
+                    height={400}
+                    alt="image profile"
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="text-xl font-bold">{author}</div>
+                  <div className="text-base font-light">{created_at}</div>
+                </div>
+              </div>
+              {/* tags */}
+              <div className="flex flex-wrap gap-2">
+                {tags?.map((el) => (
+                  <span
+                    key={el.value}
+                    className="p-1 text-gray-600 bg-gray-100 w-max"
+                  >
+                    {el.label}
+                  </span>
+                ))}
+              </div>
+              {/* share */}
+              <section className="space-x-2">
+                <FacebookShareButton
+                  url={typeof window !== "undefined" && window.location.href}
                 >
-                  {el.label}
-                </span>
-              ))}
-            </div>
-            {/* share */}
-            <section className="space-x-2">
-              <FacebookShareButton
-                url={typeof window !== "undefined" && window.location.href}
-              >
-                <FacebookIcon size={28} round={true} />
-              </FacebookShareButton>
-              <TwitterShareButton
-                url={typeof window !== "undefined" && window.location.href}
-              >
-                <TwitterIcon size={28} round={true} />
-              </TwitterShareButton>
-              <TelegramShareButton
-                url={typeof window !== "undefined" && window.location.href}
-              >
-                <TelegramIcon size={28} round={true} />
-              </TelegramShareButton>
-              <LinkedinShareButton
-                url={typeof window !== "undefined" && window.location.href}
-              >
-                <LinkedinIcon size={28} round={true} />
-              </LinkedinShareButton>
-            </section>
-            {/* contenido */}
-            <MarkdownRender markdown={content} />
-            {/* Me gusta */}
-            <div className="flex justify-center rounded">
+                  <FacebookIcon size={28} round={true} />
+                </FacebookShareButton>
+                <TwitterShareButton
+                  url={typeof window !== "undefined" && window.location.href}
+                >
+                  <TwitterIcon size={28} round={true} />
+                </TwitterShareButton>
+                <TelegramShareButton
+                  url={typeof window !== "undefined" && window.location.href}
+                >
+                  <TelegramIcon size={28} round={true} />
+                </TelegramShareButton>
+                <LinkedinShareButton
+                  url={typeof window !== "undefined" && window.location.href}
+                >
+                  <LinkedinIcon size={28} round={true} />
+                </LinkedinShareButton>
+              </section>
+              {/* contenido */}
+              <MarkdownRender markdown={content} />
+              {/* Me gusta */}
+              <div className="flex justify-center rounded">
 
-              <button className="btn btn-neutral btn-sm" onClick={accessToken ? handlerLike : () => setShowModal(true)}>
-                {likes?.length >= 1 && likes.length}
-                {likes?.includes(user_id) ? (
-                  <AiFillHeart className="text-error text-2xl" />
-                ) : (
-                  <AiOutlineHeart className="text-white text-2xl" />
-                )}
-                Me gusta
-              </button>
+                <button className="btn btn-neutral btn-sm" onClick={accessToken ? handlerLike : () => setShowModal(true)}>
+                  {likes?.length >= 1 && likes.length}
+                  {likes?.includes(user_id) ? (
+                    <AiFillHeart className="text-error text-2xl" />
+                  ) : (
+                    <AiOutlineHeart className="text-white text-2xl" />
+                  )}
+                  Me gusta
+                </button>
 
+              </div>
+              {/* section comment */}
+              {!isLoading && (
+                <SectionComment
+                  comments={data}
+                  article={article}
+                  onMutate={handlerMutate}
+                  current_user_id={user_id}
+                  accessToken={accessToken}
+                />
+              )}
             </div>
-            {/* section comment */}
-            {!isLoading && (
-              <SectionComment
-                comments={data}
-                article={article}
-                onMutate={handlerMutate}
-                current_user_id={user_id}
-                accessToken={accessToken}
-              />
-            )}
           </div>
-        </div>
+        }
         <AuthRequired showModal={showModal} onShowModal={setShowModal} />
       </main>
     </>

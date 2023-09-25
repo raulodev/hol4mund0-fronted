@@ -14,7 +14,8 @@ import useAxios from "@/hooks/useAxios";
 import useUser from "@/hooks/useUser";
 
 export function Post({ data, accessToken }) {
-  const chekboxRef = useRef(null);
+  const chekboxDesktopRef = useRef(null);
+  const chekboxMobilRef = useRef(null);
   const { isError, isLoading } = useUser(accessToken);
   const { error, loading, success, createPost, update } = useAxios();
   const [isShowAlert, setShowAlert] = useState(false);
@@ -71,7 +72,7 @@ export function Post({ data, accessToken }) {
       formData.append("cover_image", image, image.name);
     }
     formData.append("tags", JSON.stringify(tags));
-    formData.append("is_draft", content.length == 0 ? true : chekboxRef.current.checked);
+    formData.append("is_draft", content.length == 0 ? true :  chekboxMobilRef.current.checked === chekboxDesktopRef.current.checked  );
 
 
     if (data) {
@@ -218,7 +219,7 @@ export function Post({ data, accessToken }) {
 
               <div className="p-2 bg-white">
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input ref={chekboxRef} defaultChecked type="checkbox" className="checkbox-primary checkbox checkbox-sm" />
+                  <input ref={chekboxMobilRef} defaultChecked type="checkbox" className="checkbox-primary checkbox checkbox-sm" />
                   <span className="text-sm font-semibold">Como borrador</span>
                 </label>
               </div>
@@ -236,7 +237,7 @@ export function Post({ data, accessToken }) {
               {error && !loading && <span className="text-xs text-red-500">Ha ocurrido un error</span>}
               <div className="p-2 bg-white">
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input ref={chekboxRef} defaultChecked type="checkbox" className="checkbox-primary checkbox" />
+                  <input ref={chekboxDesktopRef} defaultChecked type="checkbox" className="checkbox-primary checkbox" />
                   <span className="text-sm font-semibold">Como borrador</span>
                 </label>
               </div>

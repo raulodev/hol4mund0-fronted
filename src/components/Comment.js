@@ -8,6 +8,8 @@ import { BsReply } from "react-icons/bs";
 import useAxios from "@/hooks/useAxios";
 import { TextArea } from "./TextareaAutosize";
 import { MarkdownRender } from "./MarkdownRender";
+import { Button } from "./Button";
+
 
 export function Comment({
   id,
@@ -27,20 +29,27 @@ export function Comment({
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [showModalReport, setShowModalReport] = useState(false);
   const [replyContent, setContent] = useState("");
-  const { post } = useAxios();
+  const { post, loading } = useAxios();
 
   const submitComment = async () => {
 
     const formData = new FormData();
-    formData.append("content", replyContent);
-    formData.append("article", article);
-    formData.append("parent_comment", id);
+
+    if (replyContent.length > 0) {
+
+      formData.append("content", replyContent);
+      formData.append("article", article);
+      formData.append("parent_comment", id);
 
 
-    await post("/comments/", formData, accessToken);
-    setContent("");
-    onMutate();
-    setShowTextarea(false);
+      await post("/comments/", formData, accessToken);
+      setContent("");
+      onMutate();
+      setShowTextarea(false);
+
+
+    }
+
   };
 
 
@@ -126,13 +135,9 @@ export function Comment({
             value={replyContent}
             onChange={(e) => setContent(e.target.value)}
           />
-          <button
-            type="submit"
-            className="btn btn-neutral btn-sm"
-            onClick={submitComment}
-          >
-            Publicar respuesta
-          </button>
+
+          <Button type="submit" className="btn btn-neutral btn-sm" text="Publicar comentario" isLoading={loading} onClick={submitComment} />
+
         </form>
       )}
       <div className="ml-2 pl-2 md:ml-4 md:pl-4  border-gray-400">

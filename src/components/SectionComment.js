@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Comment } from "./Comment";
 import { TextArea } from "./TextareaAutosize";
 import { AuthRequired } from "@/components/Alert";
+import { Button } from "./Button";
 import useAxios from "@/hooks/useAxios";
 
 export function SectionComment({ comments, article, onMutate, current_user_id, accessToken }) {
@@ -9,7 +10,7 @@ export function SectionComment({ comments, article, onMutate, current_user_id, a
   const [amountComments, setAmountComments] = useState(0);
   const [listComments, setComments] = useState([]);
   const [showModal, setShowModal] = useState(false)
-  const { post, error } = useAxios();
+  const { post, loading, error } = useAxios();
 
   useEffect(() => {
     let count = 0
@@ -49,14 +50,19 @@ export function SectionComment({ comments, article, onMutate, current_user_id, a
       return
     }
 
-    const formData = new FormData();
-    formData.append("content", content);
-    formData.append("article", article);
+    if (content.length > 0) {
 
-    await post("/comments/", formData, accessToken);
-    if (error?.response.status == 401) {
-      return
+      const formData = new FormData();
+      formData.append("content", content);
+      formData.append("article", article);
+
+      await post("/comments/", formData, accessToken);
+      if (error?.response.status == 401) {
+        return
+      }
+
     }
+
     setContent("");
     onMutate();
   };
@@ -84,13 +90,7 @@ export function SectionComment({ comments, article, onMutate, current_user_id, a
             onChange={(e) => setContent(e.target.value)}
             onFocus={handlerOnFocus}
           />
-          <button
-            type="submit"
-            className="btn btn-neutral btn-sm"
-            onClick={submitComment}
-          >
-            Publicar comentario
-          </button>
+          <Button type="submit" className="btn btn-neutral btn-sm" text="Publicar comentario" isLoading={loading} onClick={submitComment} />
         </form>
 
         {listComments?.map(
