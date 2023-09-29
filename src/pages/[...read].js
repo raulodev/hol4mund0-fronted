@@ -11,16 +11,17 @@ import {
   LinkedinIcon,
 } from "react-share";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { getToken } from "next-auth/jwt"
+import markdownToTxt from "markdown-to-txt";
 import { PageHead } from "@/components/WebHeader";
 import { NavBar } from "@/components/NavBar";
 import { MarkdownRender } from "@/components/MarkdownRender";
 import { SectionComment } from "@/components/SectionComment";
 import { AuthRequired } from "@/components/Alert";
-import useFetch from "@/hooks/useFetch";
 import { serverApi } from "@/services/api-client";
+import useFetch from "@/hooks/useFetch";
 import useAxios from "@/hooks/useAxios";
 import useGetUserId from "@/hooks/useGetUserId";
-import { getToken } from "next-auth/jwt"
 
 
 export async function getServerSideProps(context) {
@@ -32,7 +33,6 @@ export async function getServerSideProps(context) {
   if (token) {
     accessToken = token.accessToken
   }
-
 
 
   const { read } = context.params;
@@ -66,6 +66,7 @@ export async function getServerSideProps(context) {
   const url_likes = data.likes;
   const string_tags = data.tags;
   const is_draft = data.is_draft;
+  const description_page = markdownToTxt(content)
 
   return {
     props: {
@@ -82,6 +83,7 @@ export async function getServerSideProps(context) {
       string_tags,
       accessToken,
       is_draft,
+      description_page
     },
   };
 }
@@ -98,7 +100,8 @@ function Page({
   url_likes,
   string_tags,
   accessToken,
-  is_draft
+  is_draft,
+  description_page
 }) {
   const [showModal, setShowModal] = useState(false)
   const [tags] = useState(() => JSON.parse(string_tags));
@@ -128,16 +131,12 @@ function Page({
 
   return (
     <>
-      <PageHead title={title} image={cover} description={content} />
+      <PageHead title={title} image={cover} description={description_page} />
       <main className="min-h-screen">
         <NavBar accessToken={accessToken} />
         {/* Ocultar contenido si es un borrador */}
         {is_draft ?
-          <div className="h-screen flex justify-center items-center">
-            <h1 className="text-lg w-full px-4 sm:w-[30rem]  text-center">
-              El autor de esta publicación la ha marcado <span className="underline font-semibold">como borrador</span> por lo tanto su contenido no es visible
-            </h1>
-          </div> :
+          <HiddenContent /> :
           <div className="flex justify-center pt-20 lg:pt-32">
             <div className="w-full px-4 sm:w-[30rem] sm:px-0 md:w-[38rem] lg:w-[45rem] flex flex-col gap-5">
               {/* cover */}
@@ -181,7 +180,7 @@ function Page({
                   </span>
                 ))}
               </div>
-              {/* share */}
+              {/* share section*/}
               <section className="space-x-2">
                 <FacebookShareButton
                   url={typeof window !== "undefined" && window.location.href}
@@ -240,6 +239,13 @@ function Page({
 }
 
 
+const HiddenContent = () => {
 
+  return <div className="h-screen flex justify-center items-center">
+    <h1 className="text-lg w-full px-4 sm:w-[30rem]  text-center">
+      El autor de esta publicación la ha marcado <span className="underline font-semibold">como borrador</span> por lo tanto su contenido no es visible
+    </h1>
+  </div>
+}
 
 export default Page;

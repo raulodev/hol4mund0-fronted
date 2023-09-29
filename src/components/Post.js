@@ -16,6 +16,7 @@ import useUser from "@/hooks/useUser";
 export function Post({ data, accessToken }) {
   const chekboxDesktopRef = useRef(null);
   const chekboxMobilRef = useRef(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const { isError, isLoading } = useUser(accessToken);
   const { error, loading, success, createPost, update } = useAxios();
   const [isShowAlert, setShowAlert] = useState(false);
@@ -47,7 +48,26 @@ export function Post({ data, accessToken }) {
     if (data) {
       getData();
     }
+
+    const handleScroll = () => {
+      const position = window.scrollY;
+      setScrollPosition(position);
+    }
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+
+
   }, []);
+
+  const handleScroll = () => {
+    const currentPosition = window.scrollY;
+    setScrollPosition(currentPosition);
+    window.sc
+
+  };
+
 
   const handleImageChange = (event) => {
     const image = event.target.files[0];
@@ -72,7 +92,7 @@ export function Post({ data, accessToken }) {
       formData.append("cover_image", image, image.name);
     }
     formData.append("tags", JSON.stringify(tags));
-    formData.append("is_draft", content.length == 0 ? true :  chekboxMobilRef.current.checked === chekboxDesktopRef.current.checked  );
+    formData.append("is_draft", content.length == 0 ? true : chekboxMobilRef.current.checked === chekboxDesktopRef.current.checked);
 
 
     if (data) {
@@ -104,7 +124,7 @@ export function Post({ data, accessToken }) {
           <div className="flex flex-col justify-center items-center gap-2 px-2 lg:gap-0 lg:items-start lg:flex-row ">
             <div className="w-full sm:w-[30rem] md:w-[38rem] lg:w-min">
               <div className="tooltip tooltip-bottom" data-tip={isPreview ? "editar" : "ver"}>
-                <button onClick={() => setPreview(!isPreview)} className="mt-20 mr-2 btn btn-sm btn-neutral w-max">
+                <button style={{ marginTop: `${scrollPosition + 80}px` }} onClick={() => setPreview(!isPreview)} className="mr-2 btn btn-sm btn-neutral w-max">
                   {isPreview ?
                     <VscEdit className="text-xl" />
                     :
@@ -225,7 +245,7 @@ export function Post({ data, accessToken }) {
               </div>
             </div>
             {/* lg */}
-            <div className="hidden lg:flex flex-col gap-2 ml-2 lg:mt-20">
+            <div style={{ marginTop: `${scrollPosition + 80}px` }} className="hidden lg:flex flex-col gap-2 ml-2">
               <Button
                 isLoading={loading}
                 isSuccess={success}
