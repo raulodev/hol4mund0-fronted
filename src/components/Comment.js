@@ -115,16 +115,20 @@ export function Comment({
         </div>
         <MarkdownRender markdown={content} />
 
-        <div className="flex items-center mt-4 space-x-4">
-          <button
-            type="button"
-            className="flex items-center text-sm text-gray-500 hover:underline gap-2"
-            onClick={() => setShowTextarea((prev) => !prev)}
-          >
-            <BsReply />
-            Responder
-          </button>
-        </div>
+        {accessToken &&
+          <div className="flex items-center mt-4 space-x-4">
+            <button
+              type="button"
+              className="flex items-center text-sm text-gray-500 hover:underline gap-2"
+              onClick={() => setShowTextarea((prev) => !prev)}
+            >
+              <BsReply />
+              Responder
+            </button>
+          </div>
+
+        }
+
       </article>
       {showTextarea && (
         <form onSubmit={(e) => e.preventDefault()} className="mb-6 ">

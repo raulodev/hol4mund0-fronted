@@ -30,7 +30,12 @@ export function Post({ data, accessToken }) {
 
   useScrollPosition(({ prevPos, currPos }) => {
     setScrollPosition(currPos.y * -1)
-  }, [])
+  }, []
+    ,
+    null,
+    false,
+    800
+  )
 
   useEffect(() => {
     async function getData() {
@@ -111,19 +116,14 @@ export function Post({ data, accessToken }) {
 
         {!isLoading && !isError && (
           <div className="flex flex-col justify-center items-center gap-2 px-2 lg:gap-0 lg:items-start lg:flex-row ">
-            <div className="w-full sm:w-[30rem] md:w-[38rem] lg:w-min">
-              <div style={{ marginTop: `${scrollPosition + 80}px` }} className="tooltip tooltip-bottom" data-tip={isPreview ? "editar" : "ver"}>
-                <button onClick={() => setPreview(!isPreview)} className="mr-2 btn btn-sm btn-neutral w-max">
-                  {isPreview ?
-                    <VscEdit className="text-xl" />
-                    :
-                    <VscPreview className="text-xl" />
-                  }
-                </button>
-              </div>
+            <PreviewButton
+              scrollPosition={scrollPosition}
+              isPreview={isPreview}
+              setPreview={setPreview}
+            />
 
-            </div>
-            <div className="flex flex-col w-full gap-4 bg-white sm:w-[30rem] md:w-[38rem] lg:w-[46rem] lg:mt-20">
+
+            <div className="flex flex-col w-full gap-4 bg-white sm:w-[30rem] md:w-[38rem] lg:w-[46rem] mt-20">
 
               <div className="flex flex-col items-center">
                 {isPreview && previewImageUrl ? (
@@ -217,41 +217,17 @@ export function Post({ data, accessToken }) {
 
               <Editor show={isPreview} onChangeContent={handleContentChange} initialContent={content} />
             </div>
-            {/* -> lg */}
-            <div className="lg:hidden fixed bottom-5 right-5 flex flex-col items-end gap-1">
-              <Button
-                isLoading={loading}
-                isSuccess={success}
-                className="btn btn-sm btn-neutral w-max"
-                icon={<AiOutlineArrowUp className="text-lg" />}
-                onClick={handlerSubmit}
-              />
+            <UpdateButton
+              success={success}
+              loading={loading}
+              error={error}
+              chekboxMobilRef={chekboxMobilRef}
+              chekboxDesktopRef={chekboxDesktopRef}
+              scrollPosition={scrollPosition}
+              data={data}
+              handlerSubmit={handlerSubmit}
+            />
 
-              <div className="p-2 bg-white">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input ref={chekboxMobilRef} defaultChecked type="checkbox" className="checkbox-primary checkbox checkbox-sm" />
-                  <span className="text-sm font-semibold">Como borrador</span>
-                </label>
-              </div>
-            </div>
-            {/* lg */}
-            <div style={{ marginTop: `${scrollPosition + 80}px` }} className="hidden lg:flex flex-col gap-2 ml-2">
-              <Button
-                isLoading={loading}
-                isSuccess={success}
-                className="btn btn-sm btn-neutral"
-                text={data ? "Actualizar" : "Publicar"}
-                onClick={handlerSubmit}
-              />
-
-              {error && !loading && <span className="text-xs text-red-500">Ha ocurrido un error</span>}
-              <div className="p-2 bg-white">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input ref={chekboxDesktopRef} defaultChecked type="checkbox" className="checkbox-primary checkbox" />
-                  <span className="text-sm font-semibold">Como borrador</span>
-                </label>
-              </div>
-            </div>
           </div>
         )}
         <Alert showModal={isShowAlert} onShowModal={setShowAlert} />
@@ -259,6 +235,80 @@ export function Post({ data, accessToken }) {
       </main>
     </>
   );
+}
+
+
+function UpdateButton({ loading, success, error, data, handlerSubmit, chekboxMobilRef, chekboxDesktopRef, scrollPosition }) {
+  return <div>
+    {/* to mobiles devices */}
+    <div className="lg:hidden fixed bottom-5 right-5 flex flex-col items-end gap-1">
+      <Button
+        isLoading={loading}
+        isSuccess={success}
+        className="btn btn-sm btn-neutral w-max"
+        icon={<AiOutlineArrowUp className="text-lg" />}
+        onClick={handlerSubmit}
+      />
+
+      <div className="p-2 bg-white">
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input ref={chekboxMobilRef} defaultChecked type="checkbox" className="checkbox-primary checkbox checkbox-sm" />
+          <span className="text-sm font-semibold">Como borrador</span>
+        </label>
+      </div>
+    </div>
+    {/* to lg screen */}
+    <div style={{ marginTop: `${scrollPosition + 80}px`, transition: "all 200ms ease-in" }} className="hidden lg:flex flex-col gap-2 ml-2">
+      <Button
+        isLoading={loading}
+        isSuccess={success}
+        className="btn btn-sm btn-neutral"
+        text={data ? "Actualizar" : "Publicar"}
+        onClick={handlerSubmit}
+      />
+
+      {error && !loading && <span className="text-xs text-red-500">Ha ocurrido un error</span>}
+      <div className="p-2 bg-white">
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input ref={chekboxDesktopRef} defaultChecked type="checkbox" className="checkbox-primary checkbox" />
+          <span className="text-sm font-semibold">Como borrador</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+
+
+
+}
+
+function PreviewButton({ scrollPosition, isPreview, setPreview }) {
+  return <div>
+    {/* button with scroll to lg sreen */}
+    <div style={{ marginTop: `${scrollPosition + 80}px`, transition: "all 200ms ease-in" }} className="tooltip tooltip-bottom hidden lg:block" data-tip={isPreview ? "editar" : "ver"}>
+      <button onClick={() => setPreview(!isPreview)} className="mr-2 btn btn-sm btn-neutral w-max">
+        {isPreview ?
+          <VscEdit className="text-xl" />
+          :
+          <VscPreview className="text-xl" />
+        }
+      </button>
+    </div>
+    {/* button without scroll to mobile screen */}
+    <div className="tooltip tooltip-bottom  lg:hidden fixed top-20 left-5 z-10" data-tip={isPreview ? "editar" : "ver"}>
+      <button onClick={() => setPreview(!isPreview)} className="btn btn-sm btn-neutral w-max">
+        {isPreview ?
+          <VscEdit className="text-xl" />
+          :
+          <VscPreview className="text-xl" />
+        }
+      </button>
+    </div>
+
+  </div>
+
+
+
 }
 
 function Alert({ showModal, onShowModal }) {

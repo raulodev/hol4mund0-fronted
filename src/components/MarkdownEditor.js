@@ -120,6 +120,30 @@ ReactDOM.render(
     }
   }
 
+  const addCode = () => {
+    if (markdown != undefined) {
+      const newMarkdown =
+        markdown.substring(0, selectedText.startIndex) +
+        "`" +
+        selectedText.text +
+        "`" +
+        markdown.substring(selectedText.endIndex);
+      setMarkDown(newMarkdown);
+      onChangeContent(newMarkdown);
+    }
+  }
+  const addKbd = () => {
+    if (markdown != undefined) {
+      const newMarkdown =
+        markdown.substring(0, selectedText.startIndex) +
+        "<kbd>" +
+        selectedText.text +
+        "</kbd>" +
+        markdown.substring(selectedText.endIndex);
+      setMarkDown(newMarkdown);
+      onChangeContent(newMarkdown);
+    }
+  }
 
   const handlerContent = (event) => {
     const mkd = event.target.value;
@@ -150,18 +174,38 @@ ReactDOM.render(
       <div
         className={show ? "hidden" : "hidden fixed gap-1 left-0 right-0 lg:flex justify-center bottom-5"}
       >
-        <button className="shadow-xl btn btn-sm btn-neutral">
-          <BsTypeBold onClick={addBold} className="text-2xl" />
-        </button>
-        <button className="shadow-xl btn btn-sm btn-neutral">
-          <BsTypeItalic onClick={addItalic} className="text-2xl" />
-        </button>
-        <button className="shadow-xl btn btn-sm btn-neutral">
-          <BsLink45Deg onClick={addLink} className="text-2xl" />
-        </button>
-        <button className="shadow-xl btn btn-sm btn-neutral">
-          <BsCode onClick={addCodeBlock} className="text-2xl" />
-        </button>
+        <div className="tooltip tooltip-top" data-tip="negrita">
+          <button onClick={addBold} className="shadow-xl btn btn-sm btn-neutral">
+            <BsTypeBold className="text-2xl" />
+          </button>
+        </div>
+        <div className="tooltip tooltip-top" data-tip="italic">
+          <button onClick={addItalic} className="shadow-xl btn btn-sm btn-neutral">
+            <BsTypeItalic className="text-2xl" />
+          </button>
+        </div>
+        <div className="tooltip tooltip-top" data-tip="enlace">
+
+          <button onClick={addLink} className="shadow-xl btn btn-sm btn-neutral">
+            <BsLink45Deg className="text-2xl" />
+          </button>
+        </div>
+        <div className="tooltip tooltip-top" data-tip="bloque código">
+
+          <button onClick={addCodeBlock} className="shadow-xl btn btn-sm btn-neutral">
+            <BsCode className="text-2xl" />
+          </button>
+        </div>
+        <div className="tooltip tooltip-top" data-tip="código">
+          <button onClick={addCode} className="shadow-xl btn btn-sm btn-neutral font-mono w-10 text-lg">
+            M
+          </button>
+        </div>
+        <div className="tooltip tooltip-top" data-tip="Kbd">
+          <button onClick={addKbd} className="shadow-xl btn btn-sm btn-neutral font-mono w-10 text-lg">
+            Kb
+          </button>
+        </div>
       </div>
     </div>
   );
