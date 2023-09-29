@@ -8,7 +8,6 @@ import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 export function MarkdownRender({ markdown }) {
 
-
   const Pre = ({ children }) => <pre>
     <CodeCopyBtn>{children}</CodeCopyBtn>
     {children}
@@ -21,6 +20,7 @@ export function MarkdownRender({ markdown }) {
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
         components={{
+          kbd: ({ children }) => <kbd className="kbd min-h-[1rem]">{children}</kbd>,
           pre: Pre,
           code({ node, inline, className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || "");
@@ -53,7 +53,6 @@ function CodeCopyBtn({ children }) {
   const [copyOk, setCopyOk] = useState(false);
   const handleClick = (e) => {
     navigator.clipboard.writeText(children[0].props.children[0]);
-    console.log(children)
     setCopyOk(true);
     setTimeout(() => {
       setCopyOk(false);

@@ -3,9 +3,9 @@ import Head from "next/head";
 export function PageHead({
   title = "Hol4 Mund0",
   description = "Hola Mundo un blog para todos",
-  url = "hol4mund0.vercel.app",
+  url = "Hol4 Mund0",
   image = "/hero.jpg",
-  domain = "holamundo.com",
+  domain = "hol4mund0.vercel.app",
 }) {
   return (
     <Head>

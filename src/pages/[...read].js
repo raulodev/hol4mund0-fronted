@@ -180,8 +180,11 @@ function Page({
                   </span>
                 ))}
               </div>
+
+              {/* contenido */}
+              <MarkdownRender markdown={content} />
               {/* share section*/}
-              <section className="space-x-2">
+              <section className="flex items-center mt-10 space-x-5">
                 <FacebookShareButton
                   url={typeof window !== "undefined" && window.location.href}
                 >
@@ -202,23 +205,19 @@ function Page({
                 >
                   <LinkedinIcon size={28} round={true} />
                 </LinkedinShareButton>
-              </section>
-              {/* contenido */}
-              <MarkdownRender markdown={content} />
-              {/* Me gusta */}
-              <div className="flex justify-center rounded">
+                {/* Me gusta */}
 
-                <button className="btn btn-neutral btn-sm" onClick={accessToken ? handlerLike : () => setShowModal(true)}>
+                <button className="btn btn-sm" onClick={accessToken ? handlerLike : () => setShowModal(true)}>
                   {likes?.length >= 1 && likes.length}
                   {likes?.includes(user_id) ? (
                     <AiFillHeart className="text-error text-2xl" />
                   ) : (
-                    <AiOutlineHeart className="text-white text-2xl" />
+                    <AiOutlineHeart className="text-back text-2xl" />
                   )}
                   Me gusta
                 </button>
 
-              </div>
+              </section>
               {/* section comment */}
               {!isLoading && (
                 <SectionComment

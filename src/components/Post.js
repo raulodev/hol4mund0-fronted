@@ -3,6 +3,7 @@ import Image from "next/image";
 import CreatableSelect from "react-select/creatable";
 import { VscPreview, VscEdit } from "react-icons/vsc";
 import { AiOutlineArrowUp } from "react-icons/ai";
+import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import { NavBar } from "@/components/NavBar";
 import { PageHead } from "@/components/WebHeader";
 import { Editor } from "@/components/MarkdownEditor";
@@ -27,6 +28,10 @@ export function Post({ data, accessToken }) {
   const [tags, setTags] = useState([]);
   const [previewImageUrl, setPreviewImageUrl] = useState(null);
 
+  useScrollPosition(({ prevPos, currPos }) => {
+    setScrollPosition(currPos.y * -1)
+  }, [])
+
   useEffect(() => {
     async function getData() {
       setTitle(data.title);
@@ -49,24 +54,8 @@ export function Post({ data, accessToken }) {
       getData();
     }
 
-    const handleScroll = () => {
-      const position = window.scrollY;
-      setScrollPosition(position);
-    }
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
-
 
   }, []);
-
-  const handleScroll = () => {
-    const currentPosition = window.scrollY;
-    setScrollPosition(currentPosition);
-    window.sc
-
-  };
 
 
   const handleImageChange = (event) => {
@@ -123,8 +112,8 @@ export function Post({ data, accessToken }) {
         {!isLoading && !isError && (
           <div className="flex flex-col justify-center items-center gap-2 px-2 lg:gap-0 lg:items-start lg:flex-row ">
             <div className="w-full sm:w-[30rem] md:w-[38rem] lg:w-min">
-              <div className="tooltip tooltip-bottom" data-tip={isPreview ? "editar" : "ver"}>
-                <button style={{ marginTop: `${scrollPosition + 80}px` }} onClick={() => setPreview(!isPreview)} className="mr-2 btn btn-sm btn-neutral w-max">
+              <div style={{ marginTop: `${scrollPosition + 80}px` }} className="tooltip tooltip-bottom" data-tip={isPreview ? "editar" : "ver"}>
+                <button onClick={() => setPreview(!isPreview)} className="mr-2 btn btn-sm btn-neutral w-max">
                   {isPreview ?
                     <VscEdit className="text-xl" />
                     :
@@ -135,6 +124,7 @@ export function Post({ data, accessToken }) {
 
             </div>
             <div className="flex flex-col w-full gap-4 bg-white sm:w-[30rem] md:w-[38rem] lg:w-[46rem] lg:mt-20">
+
               <div className="flex flex-col items-center">
                 {isPreview && previewImageUrl ? (
                   <div className="w-full h-40 overflow-hidden lg:h-80">

@@ -136,7 +136,7 @@ export function Comment({
             onChange={(e) => setContent(e.target.value)}
           />
 
-          <Button type="submit" className="btn btn-neutral btn-sm" text="Publicar comentario" isLoading={loading} onClick={submitComment} />
+          <Button type="submit" className="btn btn-neutral btn-sm" text="Publicar respuesta" isLoading={loading} onClick={submitComment} />
 
         </form>
       )}
