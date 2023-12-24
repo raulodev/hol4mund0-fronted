@@ -8,7 +8,7 @@ export function Stats({ articles }) {
   return (
     <div className="stats shadow mt-28 stats-vertical md:stats-horizontal">
       <div className="stat">
-        <div className="stat-figure text-blue-700">
+        <div className="stat-figure text-black">
           <BsPenFill className="text-3xl" />
         </div>
         <div className="stat-title">Posts</div>
@@ -24,7 +24,7 @@ export function Stats({ articles }) {
       </div>
 
       <div className="stat">
-        <div className="stat-figure text-warning">
+        <div className="stat-figure text-black">
           <BsFillLightningChargeFill className="text-3xl" />
         </div>
         <div className="stat-title">Visitas</div>

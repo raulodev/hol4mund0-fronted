@@ -13,7 +13,7 @@ export const authOptions = {
         }),
         TwitterProvider({
             clientId: process.env.TWITTER_CLIENT_ID,
-            clientSecret: process.env.TWITTER_CLIENT_SECRET
+            clientSecret: process.env.TWITTER_CLIENT_SECRET,
         })
 
     ],
@@ -30,7 +30,10 @@ export const authOptions = {
     callbacks: {
         async signIn({ user, account, profile, email, credentials }) {
 
+
             if (account.provider === "github") {
+
+                const { access_token } = account
 
                 const formData = new FormData();
                 formData.append('email', user.email);
@@ -38,6 +41,7 @@ export const authOptions = {
                 formData.append('description', profile.bio);
                 formData.append('username', profile.login);
                 formData.append('provider', account.provider);
+                formData.append('access_token', access_token);
 
                 try {
                     const req = await serverApi.post("/auth/register/", formData)
@@ -50,12 +54,16 @@ export const authOptions = {
                 }
             } else if (account.provider === "twitter") {
 
+                const { oauth_token, oauth_token_secret } = account
+
                 const formData = new FormData();
                 formData.append('email', user.email);
                 formData.append('first_name', user.name);
                 formData.append('description', profile.description);
                 formData.append('username', profile.screen_name);
                 formData.append('provider', account.provider);
+                formData.append('oauth_token', oauth_token);
+                formData.append('oauth_token_secret', oauth_token_secret);
 
                 try {
                     const req = await serverApi.post("/auth/register/", formData)

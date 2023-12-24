@@ -1,26 +1,25 @@
 import axios from "axios";
 
 // Lado del servidor
-const serverBaseURL = process.env.DJANGO_SERVICE_URL;
+
+export const baseURL = "http://127.0.0.1:8000"
 
 
 export const serverApi = axios.create({
-  baseURL: serverBaseURL,
+  baseURL: baseURL + "/api",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Lado del cliente 
-const clientBaseURL = "https://raulcobiellas.pythonanywhere.com/api";
+
 
 
 export const clientApi = axios.create({
-  baseURL: clientBaseURL,
+  baseURL: baseURL + "/api",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 
-export const baseURL = "https://hol4mund0.vercel.app"

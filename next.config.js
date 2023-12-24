@@ -4,7 +4,7 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
+        protocol: "http", // TODO cambiar a https
         hostname: "**",
       },
     ],
