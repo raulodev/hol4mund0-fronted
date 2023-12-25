@@ -66,7 +66,7 @@ export function NavBar({ accessToken }) {
         </div>
 
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end ">
         {!isError && !isLoading ? (
           <DropDown user={user} />
         ) : (

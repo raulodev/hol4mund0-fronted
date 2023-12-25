@@ -37,6 +37,11 @@ export default function Home({ accessToken }) {
       <PageHead />
       <main className="flex flex-col items-center min-h-screen">
         <NavBar accessToken={accessToken} />
+        <div className="mt-20 text-center">
+          <h1 className="text-7xl lg:text-8xl font-black">Hol4 Mund0</h1>
+          <h4>bienvenido a mi sitio web de microblog</h4>
+
+        </div>
         <div>
           <h1 className="text-4xl font-black mt-24 text-colored">Publicaciones</h1>
         </div>

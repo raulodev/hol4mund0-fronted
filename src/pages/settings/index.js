@@ -274,6 +274,7 @@ function InputSocial({ label, value, name, handlerOnChange }) {
         placeholder="enlace"
         className="input input-bordered w-80 md:w-full"
       />
+      <span className="text-xs text-gray-600">* Debe de comenzar con https://</span>
     </div>
   );
 }

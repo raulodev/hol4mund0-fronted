@@ -57,46 +57,44 @@ const UserDetail = ({ userData, userArticles, accessToken }) => {
       />
       <main className="min-h-screen">
         <NavBar accessToken={accessToken} />
-        {false ? (
-          <Skeleton />
-        ) : (
-          <div className="flex flex-col items-center gap-5 pt-20">
-            <div className="flex flex-col items-center p-4">
-              <div className="w-32 h-32 overflow-hidden rounded-full lg:w-56 lg:h-56">
-                <Image
-                  className="object-cover w-full h-full"
-                  src={userData?.preview_profile_image}
-                  width={1000}
-                  height={500}
-                  alt="profile image"
-                />
-              </div>
-              <div className="flex flex-col pt-4">
-                {/* nombre */}
-                <div className="text-2xl font-bold text-center text-zinc-900">
-                  {userData?.first_name && <span> {userData.first_name}</span>}
-                  {userData?.last_name && <span> {userData.last_name}</span>}
-                </div>
-                {/* username */}
-                <div className="py-2 text-lg font-light text-center text-zinc-900">
-                  {userData?.username && <span> @{userData.username}</span>}
-                </div>
-                {/* social sections */}
-                <Social userData={userData} />
-                {/* descripción */}
-                {userData?.description && (
-                  <div className="text-lg w-64 sm:w-96 lg:w-[40rem] font-light border break-words whitespace-pre-wrap p-4">
-                    <span className="font-bold">Bio</span>
-                    <br />
-                    {userData.description}
-                  </div>
-                )}
-              </div>
+
+        <div className="flex flex-col items-center gap-5 pt-20">
+          <div className="flex flex-col items-center p-4">
+            <div className="w-32 h-32 overflow-hidden rounded-full lg:w-56 lg:h-56">
+              <Image
+                className="object-cover w-full h-full"
+                src={userData?.preview_profile_image}
+                width={1000}
+                height={500}
+                alt="profile image"
+              />
             </div>
-            <SectionData articles={userArticles} />
-            <Footer />
+            <div className="flex flex-col pt-4">
+              {/* nombre */}
+              <div className="text-2xl font-bold text-center text-zinc-900">
+                {userData?.first_name && <span> {userData.first_name}</span>}
+                {userData?.last_name && <span> {userData.last_name}</span>}
+              </div>
+              {/* username */}
+              <div className="py-2 text-lg font-light text-center text-zinc-900">
+                {userData?.username && <span> @{userData.username}</span>}
+              </div>
+              {/* social sections */}
+              <Social userData={userData} />
+              {/* descripción */}
+              {userData?.description && (
+                <div className="text-lg w-64 sm:w-96 lg:w-[40rem] font-light border break-words whitespace-pre-wrap p-4">
+                  <span className="font-bold">Bio</span>
+                  <br />
+                  {userData.description}
+                </div>
+              )}
+            </div>
           </div>
-        )}
+          <SectionData articles={userArticles} />
+          <Footer />
+        </div>
+
       </main>
     </>
   );
