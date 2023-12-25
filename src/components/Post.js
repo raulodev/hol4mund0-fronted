@@ -3,7 +3,6 @@ import Image from "next/image";
 import CreatableSelect from "react-select/creatable";
 import { VscPreview, VscEdit } from "react-icons/vsc";
 import { AiOutlineArrowUp } from "react-icons/ai";
-import { useScrollPosition } from '@n8tb1t/use-scroll-position'
 import { NavBar } from "@/components/NavBar";
 import { PageHead } from "@/components/WebHeader";
 import { Editor } from "@/components/MarkdownEditor";
@@ -17,7 +16,6 @@ import useUser from "@/hooks/useUser";
 export function Post({ data, accessToken }) {
   const chekboxDesktopRef = useRef(null);
   const chekboxMobilRef = useRef(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
   const { isError, isLoading } = useUser(accessToken);
   const { error, loading, success, createPost, update } = useAxios();
   const [isShowAlert, setShowAlert] = useState(false);
@@ -28,14 +26,7 @@ export function Post({ data, accessToken }) {
   const [tags, setTags] = useState([]);
   const [previewImageUrl, setPreviewImageUrl] = useState(null);
 
-  useScrollPosition(({ prevPos, currPos }) => {
-    setScrollPosition(currPos.y * -1)
-  }, []
-    ,
-    null,
-    false,
-    800
-  )
+
 
   useEffect(() => {
     async function getData() {
@@ -103,7 +94,7 @@ export function Post({ data, accessToken }) {
   return (
     <>
       <PageHead title={data ? "Editar - Hol4 Mund0" : "Redactar - Hol4 Mund0"} />
-      <main className="min-h-screen">
+      <main className="min-h-screen flex justify-center">
         <NavBar accessToken={accessToken} />
 
         {isError && <PageError message={isError.message} code={isError.code} />}
@@ -115,15 +106,16 @@ export function Post({ data, accessToken }) {
         )}
 
         {!isLoading && !isError && (
-          <div className="flex flex-col justify-center items-center gap-2 px-2 lg:gap-0 lg:items-start lg:flex-row ">
+
+          <>
+
             <PreviewButton
-              scrollPosition={scrollPosition}
               isPreview={isPreview}
               setPreview={setPreview}
             />
 
 
-            <div className="flex flex-col w-full gap-4 bg-white sm:w-[30rem] md:w-[38rem] lg:w-[46rem] mt-20">
+            <div className="flex flex-col w-full gap-4 bg-white sm:w-[30rem] md:w-[38rem] lg:w-[46rem]  mt-20">
 
               <div className="flex flex-col items-center">
                 {isPreview && previewImageUrl ? (
@@ -217,18 +209,19 @@ export function Post({ data, accessToken }) {
 
               <Editor show={isPreview} onChangeContent={handleContentChange} initialContent={content} />
             </div>
+
+
             <UpdateButton
               success={success}
               loading={loading}
               error={error}
               chekboxMobilRef={chekboxMobilRef}
               chekboxDesktopRef={chekboxDesktopRef}
-              scrollPosition={scrollPosition}
               data={data}
               handlerSubmit={handlerSubmit}
             />
 
-          </div>
+          </>
         )}
         <Alert showModal={isShowAlert} onShowModal={setShowAlert} />
         <div className="h-20" />
@@ -238,7 +231,7 @@ export function Post({ data, accessToken }) {
 }
 
 
-function UpdateButton({ loading, success, error, data, handlerSubmit, chekboxMobilRef, chekboxDesktopRef, scrollPosition }) {
+function UpdateButton({ loading, success, error, data, handlerSubmit, chekboxMobilRef, chekboxDesktopRef }) {
   return <div>
     {/* to mobiles devices */}
     <div className="lg:hidden fixed bottom-5 right-5 flex flex-col items-end gap-1">
@@ -250,7 +243,7 @@ function UpdateButton({ loading, success, error, data, handlerSubmit, chekboxMob
         onClick={handlerSubmit}
       />
 
-      <div className="p-2 bg-white">
+      <div className="p-2 bg-white shadow">
         <label className="flex items-center gap-2 cursor-pointer">
           <input ref={chekboxMobilRef} defaultChecked type="checkbox" className="checkbox-primary checkbox checkbox-sm" />
           <span className="text-sm font-semibold">Como borrador</span>
@@ -258,7 +251,7 @@ function UpdateButton({ loading, success, error, data, handlerSubmit, chekboxMob
       </div>
     </div>
     {/* to lg screen */}
-    <div style={{ marginTop: `${scrollPosition + 80}px`, transition: "all 200ms ease-in" }} className="hidden lg:flex flex-col gap-2 ml-2">
+    <div className="hidden sticky top-20 lg:flex flex-col gap-2 ml-2">
       <Button
         isLoading={loading}
         isSuccess={success}
@@ -282,10 +275,10 @@ function UpdateButton({ loading, success, error, data, handlerSubmit, chekboxMob
 
 }
 
-function PreviewButton({ scrollPosition, isPreview, setPreview }) {
+function PreviewButton({ isPreview, setPreview }) {
   return <div>
-    {/* button with scroll to lg sreen */}
-    <div style={{ marginTop: `${scrollPosition + 80}px`, transition: "all 200ms ease-in" }} className="tooltip tooltip-bottom hidden lg:block" data-tip={isPreview ? "editar" : "ver"}>
+    {/* button  to lg screen */}
+    <div className="sticky top-20  tooltip tooltip-bottom hidden lg:block" data-tip={isPreview ? "editar" : "ver"}>
       <button onClick={() => setPreview(!isPreview)} className="mr-2 btn btn-sm btn-neutral w-max">
         {isPreview ?
           <VscEdit className="text-xl" />
@@ -294,7 +287,7 @@ function PreviewButton({ scrollPosition, isPreview, setPreview }) {
         }
       </button>
     </div>
-    {/* button without scroll to mobile screen */}
+    {/* button  to mobile screen */}
     <div className="tooltip tooltip-bottom  lg:hidden fixed top-20 left-5 z-10" data-tip={isPreview ? "editar" : "ver"}>
       <button onClick={() => setPreview(!isPreview)} className="btn btn-sm btn-neutral w-max">
         {isPreview ?
