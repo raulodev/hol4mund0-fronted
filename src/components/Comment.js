@@ -70,14 +70,13 @@ export function Comment({
                   />
 
                 </label>
-                <div tabIndex={0} className="dropdown-content z-[1] card card-compact w-64 p-1 mt-1 shadow bg-primary text-primary-content">
+                <div tabIndex={0} className="dropdown-content z-[1] card card-compact w-64 p-1 mt-1 shadow-lg bg-white text-gray-900">
                   <div className="card-body">
                     <p>{author_description}</p>
-                    <div className="card-actions">
-                      <Link href={`profile/${author}`} className="btn btn-xs">
-                        ver perfil
-                      </Link>
-                    </div>
+                    <Link href={`profile/${author}`} className="btn btn-neutral btn-xs">
+                      ver perfil
+                    </Link>
+
                   </div>
                 </div>
               </div>
