@@ -2,7 +2,7 @@ import { useState } from "react";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import ReactMarkdown from "react-markdown";
-import { BsClipboard2, BsFillClipboard2CheckFill } from "react-icons/bs"
+import { LuCopy, LuCopyCheck } from "react-icons/lu"
 import { Prism } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
@@ -69,8 +69,8 @@ function CodeCopyBtn({ children }) {
   return (
     <div className="absolute top-5 right-5">
       {copyOk ?
-        <BsFillClipboard2CheckFill className="text-lg text-green-400" /> :
-        <BsClipboard2 className="text-lg" onClick={handleClick} />
+        <LuCopyCheck className="text-lg text-green-400" /> :
+        <LuCopy className="text-lg" onClick={handleClick} />
       }
     </div>
   )
