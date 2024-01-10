@@ -93,7 +93,7 @@ export function Card({
       <div className="card-body">
         <p className="flex items-center gap-1 text-sm">
           <AiOutlineCalendar />
-          {updated_at}
+          {created_at}
         </p>
         <h2 className="break-all card-title">{title}</h2>
         <div className="items-center justify-start card-actions">

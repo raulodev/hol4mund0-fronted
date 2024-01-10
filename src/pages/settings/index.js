@@ -261,7 +261,7 @@ function Setting({ accessToken }) {
 
 function InputSocial({ label, value, name, handlerOnChange }) {
   return (
-    <div>
+    <div className="flex flex-col">
       <label className="label">
         <span className="label-text">{label}</span>
       </label>
@@ -274,7 +274,7 @@ function InputSocial({ label, value, name, handlerOnChange }) {
         placeholder="enlace"
         className="input input-bordered w-80 md:w-full"
       />
-      <span className="text-xs text-gray-600">* Debe de comenzar con https://</span>
+      <span className="text-xs text-gray-600 mt-1">* Debe de comenzar con https://</span>
     </div>
   );
 }
