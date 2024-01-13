@@ -44,6 +44,7 @@ export default function Home({ accessToken }) {
         <div className="h-screen flex flex-col items-center justify-center text-center gap-4">
           <h1 className="text-2xl font-black">Bienvenido a</h1>
           <h1 className="text-6xl md:text-8xl font-black">Hol4 Mund0</h1>
+          <p className="text-lg">Un blog para descubrir, aprender y compartir.</p>
         </div>
         <div>
           <h1 className="text-4xl font-black mt-24 text-colored text-center">Publicaciones Recientes</h1>
