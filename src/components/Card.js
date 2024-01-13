@@ -95,7 +95,7 @@ export function Card({
           <AiOutlineCalendar />
           {created_at}
         </p>
-        <h2 className="break-all card-title">{title}</h2>
+        <h2 className="break-words card-title">{title}</h2>
         <div className="items-center justify-start card-actions">
           <div className="w-10 h-10 overflow-hidden rounded-full">
             <Link href={`/profile/${author_username}`}>
