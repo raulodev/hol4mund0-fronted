@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { baseURL } from "@/services/api-client";
+import { hostClient } from "@/services/api-client";
 import { SlOptionsVertical } from "react-icons/sl";
 import { BsFillBarChartFill } from "react-icons/bs";
 import useAxios from "@/hooks/useAxios";
@@ -69,7 +69,7 @@ export function Card({
                   <li>
                     <a
                       onClick={() => {
-                        navigator.clipboard.writeText(`${baseURL}/${author_username}/${slug}/`);
+                        navigator.clipboard.writeText(`${hostClient}/${author_username}/${slug}/`);
                       }}
                     >
                       Copiar enlace
