@@ -2,9 +2,9 @@ import Head from "next/head";
 
 export function PageHead({
   title = "Hol4 Mund0",
-  description = "Hola Mundo un blog para todos",
+  description = "Hol4 Mund0 un blog para todos",
   url = "Hol4 Mund0",
-  image = "/hero.jpg",
+  image = "/hero.png",
   domain = "hol4mund0.vercel.app",
 }) {
   return (
